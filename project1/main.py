@@ -23,13 +23,18 @@ def main():
         if user_input == "quit":
             break
 
-        print("\nAssistant: ",end="")
-        for chunk in agent_executor.stream(
-            {"messages":[HumanMessage(content = user_input)]}
-        ):
-            if "agent" in chunk and "messages" in chunk[agent]:
-                for message in chunk["agent"]["messages"]:
-                    print(message.content,end="")
-        print()
+        try:
+            print("\nAssistant: ",end="")
+            
+            for chunk in agent_executor.stream(
+                {"messages":[HumanMessage(content = user_input)]}
+            ):
+                if "agent" in chunk and "messages" in chunk[agent]:
+                    for message in chunk["agent"]["messages"]:
+                        print(message.content,end="")
+            print()
+        except Exception as e:
+            print(f"\nError: {e}")
+
 if __name__ == "__main__":
     main()
